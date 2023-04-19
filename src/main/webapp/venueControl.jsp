@@ -20,9 +20,17 @@
 
 <%@ taglib prefix="venuesList" uri="/WEB-INF/venue.tld" %>
 
+<%@ taglib prefix="Editvenue" uri="/WEB-INF/VenueInfo.tld" %>
 
 
-
+<%
+    boolean isEditActive;
+    if(((VenueBean)request.getAttribute("venue")).getName() == null){
+        isEditActive = false;
+    }else{
+        isEditActive = true;
+    }
+%>
 <div class='row'>
 
     <div class='col s1 m1 l1'>
@@ -72,57 +80,22 @@
         <div class='row z-depth-1' style=''>
             <div class='col s12 '>
                 <ul class='tabs tabs-fixed-width'>
-                    <li class='tab col s3'><a class='active' href='#test1'>Add venue</a></li>
-                    <li class='tab col s3'><a href='#test2'>edit venue</a></li>
-                    <li class='tab col s3'><a class='active' href='#test3'>Delete venue</a></li>
+                    <li class='tab col s3'><a class="<%= isEditActive ? "" : "active" %>" href='#test1'>Add venue</a></li>
+                    <li class='tab col s3'><a class="<%= isEditActive ? "active" : "" %>" href='#test2'>edit venue</a></li>
+                    <li class='tab col s3'><a  href='#test3'>Delete venue</a></li>
                     <li class='tab col s3'><a href='#test4'>Enable/disable venue</a></li>
                 </ul>
             </div>
             <div id='test1' class='col s12'>
+                <Editvenue:EditVenue venue="${venue}" action="add"/>
 
-                <div class='row'>
-                    <form class='col s12' style='padding: 20px;' action='' method='post'>
-                        <div class='row'>
-                            <div class='input-field col s6'>
-                                <input type='text' class='validate' required name='venue_name'>
-                                <label>Venue name</label>
-                            </div>
-                            <div class='input-field col s6'>
-                                <input type='text' class='validate' required name='venue_type'>
-                                <label>Venue type</label>
-                            </div>
-                        </div>
-                        <div class='row'>
-                            <div class='input-field col s6'>
-                                <input type='number' min=1 class='validate' required name='venue_capacity'>
-                                <label>Maximum capacity</label>
-                            </div>
-                        </div>
-                        <div class='row'>
-                            <div class='input-field col s12'>
-                                <input type='text' class='validate' required name='venue_location'>
-                                <label>Location</label>
-                            </div>
-                        </div>
-
-
-                        <div class='row'>
-                            <div class='input-field col s12'>
-                                <textarea class='materialize-textarea' required name='venue_descrption'></textarea>
-                                <label>Textarea</label>
-                            </div>
-                        </div>
-
-                        <button class='btn waves-effect waves-light blue accent-2' type='submit' name='action'
-                                value='add'>Add venue
-                        </button>
-
-
-                    </form>
-                </div>
 
             </div>
             <div id='test2' class='col s12 ' style='padding:20px;'>
+
+                <Editvenue:EditVenue venue="${venue}" action="edit"/>
+
+
                 <table class='highlight centered'>
                     <thead>
                     <tr>
@@ -138,8 +111,6 @@
                     <tbody>
 
                     <venuesList:venueList venues="${venues}" action="Edit"/>
-
-
 
 
                     </tbody>
@@ -163,26 +134,7 @@
                     <tbody>
 
                     <venuesList:venueList venues="${venues}" action="Delete"/>
-                    <%--                    <tr>--%>
-                    <%--                        <td>1</td>--%>
-                    <%--                        <td>Name</td>--%>
-                    <%--                        <td>Type</td>--%>
-                    <%--                        <td>Hour fee</td>--%>
-                    <%--                        <td>Capacity</td>--%>
-                    <%--                        <td> <button class='btn waves-effect waves-light red accent-3' type='submit'--%>
-                    <%--                                     name='action'>Delete--%>
-                    <%--                        </button></td>--%>
-                    <%--                    </tr>--%>
-                    <%--                    <tr>--%>
-                    <%--                        <td>1</td>--%>
-                    <%--                        <td>Name</td>--%>
-                    <%--                        <td>Type</td>--%>
-                    <%--                        <td>Hour fee</td>--%>
-                    <%--                        <td>Capacity</td>--%>
-                    <%--                        <td> <button class='btn waves-effect waves-light red accent-3' type='submit'--%>
-                    <%--                                     name='action'>Delete--%>
-                    <%--                        </button></td>--%>
-                    <%--                    </tr>--%>
+
                     </tbody>
                 </table>
             </div>
@@ -202,25 +154,8 @@
                     </thead>
 
                     <tbody>
-                   <venuesList:venueList venues="${venues}" action="disable"/>
-                    <%--                    <tr>--%>
-                    <%--                        <td>1</td>--%>
-                    <%--                        <td>Name</td>--%>
-                    <%--                        <td>Type</td>--%>
-                    <%--                        <td>Capacity</td>--%>
-                    <%--                        <td> <button class='btn waves-effect waves-light red accent-3' type='submit'--%>
-                    <%--                                     name='action'>Disable--%>
-                    <%--                        </button></td>--%>
-                    <%--                    </tr>--%>
-                    <%--                    <tr>--%>
-                    <%--                        <td>1</td>--%>
-                    <%--                        <td>Name</td>--%>
-                    <%--                        <td>Type</td>--%>
-                    <%--                        <td>Capacity</td>--%>
-                    <%--                        <td> <button class='btn waves-effect waves-light teal accent-3' type='submit'--%>
-                    <%--                                     name='action'>Enable--%>
-                    <%--                        </button></td>--%>
-                    <%--                    </tr>--%>
+                    <venuesList:venueList venues="${venues}" action="disable"/>
+
                     </tbody>
                 </table>
             </div>

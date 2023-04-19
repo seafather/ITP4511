@@ -19,7 +19,37 @@ public class UserDB {
     public UserDB(DB db) {
         this.db = db;
 
+        createDatabase();
         CreateUserInfoTable();
+    }
+
+    private void createDatabase() {
+        try{
+            cnnt = db.getConnection();
+            stmnt = cnnt.createStatement();
+
+            String sql = "CREATE TABLE IF NOT EXISTS users("
+                    + "user_id int(11) PRIMARY KEY AUTO_INCREMENT,"
+                    + "position VARCHAR(10) NOT NULL,"
+                    + "name VARCHAR(10) NOT NULL,"
+                    + "email varchar(50) not null,"
+                    + "password varchar(50) not null,"
+                    + "Damaged_times int(11)"
+                    + " )";
+
+            stmnt.execute(sql);
+
+            releaseDB();
+
+        }catch (SQLException ex){
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+
+            }
+        }catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void CreateUserInfoTable() {

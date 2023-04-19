@@ -113,9 +113,6 @@ public class LoginController extends HttpServlet {
         } else {
             response.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED);
         }
-
-
-
     }
 
     private void customerRegisterEvent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -34,6 +34,8 @@ public class VenusListTag extends SimpleTagSupport {
         String str = "";
         for ( VenueBean i :venues){
 
+
+
             str += "<tr>";
             str += "<td>"+String.format("%07d",i.getVenue_id())+"</td>";
             str += "<td>"+i.getName()+"</td>";
@@ -44,13 +46,13 @@ public class VenusListTag extends SimpleTagSupport {
 
             if(action.equals("disable") && i.isActive()){
                 str += "<td>"+"<a class='btn waves-effect waves-light " +"teal accent-3'"+
-                        "href ='/venue?action="+"disable"+"&venue_id="+i.getVenue_id()+"'>"+"Disable"+"</td>";
+                        "href ='venue?action="+"disable"+"&venue_id="+i.getVenue_id()+"'>"+"Disable"+"</td>";
             }else if (action.equals("disable")&& (!i.isActive())){
                 str += "<td>"+"<a class='btn waves-effect waves-light " +"red accent-3'"+
-                        "href ='/venue?action="+"enable"+"&venue_id="+i.getVenue_id()+"'>"+"Enable"+"</td>";
+                        "href ='venue?action="+"enable"+"&venue_id="+i.getVenue_id()+"'>"+"Enable"+"</td>";
             }else{
                 str += "<td>"+"<a class='btn waves-effect waves-light " +buttonColor+"'"+
-                        "href ='/venue?action="+action+"&venue_id="+i.getVenue_id()+"'>"+action+"</td>";
+                        "href ='venue?action="+action+"&venue_id="+i.getVenue_id()+"'>"+action+"</td>";
 
             }
             str += "</tr>";

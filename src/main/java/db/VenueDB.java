@@ -191,6 +191,23 @@ public class VenueDB {
 
     }
 
+    public void deleteVenueById(int venue_id) {
+        try {
+            cnnt = db.getConnection();
+            PreparedStatement pstmt = cnnt.prepareStatement("DELETE FROM venue WHERE venue_id = ?");
+            pstmt.setInt(1, venue_id);
+            pstmt.executeUpdate();
+            releaseDB();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public int getFeeByID(int venue_id) {
         int hoursFee = 0;
 
@@ -222,16 +239,17 @@ public class VenueDB {
 
     }
 
-    public void addVenue(String name, String type, int capacity, String location, String description) {
+    public void addVenue(String name, String type, int capacity, String location, String description,double fee) {
         try {
             cnnt = db.getConnection();
-            PreparedStatement pstmt = cnnt.prepareStatement("INSERT INTO venue(name, type, max_people, location, description) VALUES(?,?,?,?,?)");
+            PreparedStatement pstmt = cnnt.prepareStatement("INSERT INTO venue(name, type, max_people, location, description,booking_fee) VALUES(?,?,?,?,?,?)");
 
             pstmt.setString(1, name);
             pstmt.setString(2, type);
             pstmt.setInt(3, capacity);
             pstmt.setString(4, location);
             pstmt.setString(5, description);
+            pstmt.setDouble(6,fee);
 
             pstmt.executeUpdate();
 
@@ -246,6 +264,60 @@ public class VenueDB {
             ex.printStackTrace();
         }
     }
+
+    public void updateRecord(int venue_id, String venue_name, String venue_type, int venue_capacity, Double venue_fee, String venue_location, String venue_descrption) {
+        try {
+            cnnt = db.getConnection();
+
+            String preQueryStatement = "UPDATE venue SET name=?, type=?, max_people=?, location=?, description=?, " +
+                    "booking_fee=? WHERE venue_id=?";
+            pStmnt = cnnt.prepareStatement(preQueryStatement);
+
+            pStmnt.setString(1, venue_name);
+            pStmnt.setString(2, venue_type);
+            pStmnt.setInt(3, venue_capacity);
+            pStmnt.setString(4, venue_location);
+            pStmnt.setString(5, venue_descrption);
+            pStmnt.setDouble(6,venue_fee);
+            pStmnt.setInt(7, venue_id);
+
+            pStmnt.executeUpdate();
+
+            releaseDB();
+
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void toggleVenueActive(int venue_id) {
+        try {
+            cnnt = db.getConnection();
+
+            String preQueryStatement = "UPDATE venue SET active = NOT active WHERE venue_id = ?";
+            pStmnt = cnnt.prepareStatement(preQueryStatement);
+
+            pStmnt.setInt(1, venue_id);
+
+            pStmnt.executeUpdate();
+
+            releaseDB();
+
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
 
     public void releaseDB() throws SQLException {
         if (stmnt != null) {
